@@ -2,14 +2,20 @@
 title: "R에서 Python 사용법"
 author: ""
 date: ''
-output: html_document
+output: 
+  html_document:
+    highlight: textmate
+    theme: default
+    toc: true
+    toc_float: true
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-오늘은 R에서 파이썬을 설치해서 사용하는 방법에 대해 배우겠다. 만약 파이썬이 없으면 [여기](https://www.python.org)에 들어가 다운로드 한 후에 설치한다. 그리고 파이썬 모듈을 설치하기 위해 먼저 가상환경을 설치해야된다.
+오늘은 R에서 파이썬을 설치해서 사용하는 방법에 대해 배우겠다. 만약 파이썬이 없으면 [여기](https://www.python.org)에 들어가 다운로드 한 후에 설치한다. 그리고 파이썬 모듈을 설치하기 위해 먼저 가상환경을 설치해야된다. 자세한 내용은 [reticulate 문서](https://rstudio.github.io/reticulate/index.html)를 확인하면 된다.
 
 <br>  
 
@@ -31,11 +37,11 @@ source('required.R')
 ```
 
 
-파이썬을 사용할때 R Console 창에 miniconda를 설치할꺼라고 나오면 `Y`를 눌러 아나콘다 환경을 설치한다. 기본으로 `reticulate`을 실행시키면 `r-reticulate`이라는 가상환경을 사용한다. 기본으로 `reticulate`은 `Sys.which("python")`에 설치된 파이썬을 사용한다.
+파이썬을 사용할때 R Console 창에 miniconda를 설치할꺼라고 나오면 `Y`를 눌러 아나콘다 환경을 설치한다. 기본으로 `reticulate`을 실행시키면 `r-reticulate`이라는 가상환경을 사용한다. 기본으로 `reticulate`은 `Sys.which("python")` 경로에 있는 파이썬을 사용한다.
 
 ```{r config_example1, eval=FALSE}
 
-# 파이썬 정보
+# 사용하는 파이썬 정보
 py_config()
 
 # 아나콘다 버전
@@ -73,11 +79,11 @@ use_condaenv(condaenv = "가상환경이름", required = TRUE)
 
 <br>  
 
-#### **예시** 
+### Python 실행 예시  
 
-그럼 새로운 `testing_venv`라는 가상환경을 만들어서 파이썬을 실행해 보겠다.
+#### **환경 설정**  
 
-
+그럼 새로운 `testing_venv`라는 가상환경을 만들어서 파이썬을 실행해 보겠다. 
 
 ```{r config_python, message=FALSE}
 
@@ -85,24 +91,39 @@ library(reticulate)
 
 ```
 
-```{r config_conda, message=FALSE, eval=FALSE}
+```{r config_conda1, message=FALSE, eval=FALSE}
 
 conda_create(envname = "testing_venv")
+
+```
+
+```{r config_conda2, message=FALSE}
+
 use_condaenv(condaenv = "testing_venv", required = TRUE)
+
+```
+
+```{r config_conda3, message=FALSE, eval=FALSE}
 
 # py_install("모듈이름") 을 사용해 모듈을 설치할 수 있다.
 # 그러나 여기서는 conda_install()을 사용하겠다.
 
 conda_install("testing_venv", "pandas")
+
 ```
 
+<br>  
+
+#### **파이썬 사용법**  
+
+R 마크다운에서 파이썬을 사용하려면 `{python}` 청크를 만들어 사용하면 된다.  
 
 ```{python python_example1, comment=''}
 import pandas as pd
 
 df = pd.DataFrame([(1.45, 0.21, 0.49), (1.65, 0.87, 1.32)], columns=("Soju", "Beer", "Rice Wine"), index=("Seoul", "Busan"))
 
-print(df)
+df
 
 for i in range(10):
   print("Hello", i)
@@ -110,9 +131,74 @@ for i in range(10):
 ```
 
 
+이 외에도 R을 사용해 파이썬 모듈을 불러오고 싶으면 `import()`를 사용해 불러온 후 메서드를 사용하려면 `$`를 사용하면 된다.
+
+```{r python_example2, comment=''}
+
+pd <- import("pandas")
+
+data <- list(c(1.45, 0.21, 0.49), c(1.65, 0.87, 1.32))
+col <- c("Soju", "Beer", "Rice Wine")
+idx <- c("Seoul", "Busan")
 
 
+pd$DataFrame(data, columns = col, index = idx)
 
+```
+
+<br>  
+
+#### **R에서 파이썬 함수/스크립트 실행**  
+
+RStudio에서 파이썬 코드를 작성하면 불편한 부분이 있다. 만약 다른 곳에서 파이썬 코드를 작성해서 함수들을 불러와 사용하려면 `source_python()`을 사용하면 된다. 파이썬 스크립트를 실행시키려면 `py_run_file()`를 사용하면 된다.
+
+
+**example1.py**  
+
+```
+import pandas as pd
+
+def make_dataframe(data, col, idx):
+    return pd.DataFrame(data, columns = col, index = idx)
+    
+```
+**R Script**
+```{r python_example3, comment='', eval=FALSE}
+source_python("example1.py")
+
+data <- list(c(1.45, 0.21, 0.49), c(1.65, 0.87, 1.32))
+col <- c("Soju", "Beer", "Rice Wine")
+idx <- c("Seoul", "Busan")
+
+to_df <- make_dataframe(data, col = col, idx = idx)
+
+
+```
+
+
+R 마크다운에서 파이썬을 사용하려면 `py` 객체를 사용한다. 예를 들어 `py$test`는 파이썬 파일에 있는 `test` 변수를 불러온다. 반대로 `r.result`를 사용하면 R 파일에 있는 `result` 변수를 파이썬에서 사용할 수 있다.  
+
+**example2.py**  
+
+```
+import pandas as pd
+
+msg = "Hello World!"
+
+df = pd.DataFrame([(1.45, 0.21, 0.49), (1.65, 0.87, 1.32)], columns=("Soju", "Beer", "Rice Wine"), index=("Seoul", "Busan"))
+
+```
+**R Script**
+```{r python_example4, comment=''}
+
+py_run_file("example2.py")
+
+
+print(py$msg)
+
+print(py$df)
+
+```
 
 
 <br>  
@@ -125,7 +211,7 @@ for i in range(10):
 ```
 > python -m venv (가상환경 이름)
 
-> python -m venv rproj_venv
+> python -m venv testing_venv
 ```
 
 **가상환경 활성화**
@@ -134,7 +220,7 @@ for i in range(10):
 > 가상환경\있는\경로\Scripts\activate
 
 # 현재 프로젝트 폴더에 있다 가정하면...
-> rproj_venv\Scripts\activate
+> testing_venv\Scripts\activate
 
 ```
 
