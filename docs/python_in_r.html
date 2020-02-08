@@ -367,15 +367,86 @@ summary {
 </div>
 
 
-<p>오늘은 R에서 파이썬을 설치해서 사용하는 방법에 대해 배우겠다. 만약 파이썬이 없으면 <a href="https://www.python.org">여기</a>에 들어가 다운로드 한 후에 설치한다. 그리고 파이썬 모듈을 설치하기 위해 먼저 가상환경을 설치해야된다. 윈도우 운영체제를 사용하면 <code>WSl</code>을 설치해서 가상환경을 설치하는 것을 권한다.</p>
+<p>오늘은 R에서 파이썬을 설치해서 사용하는 방법에 대해 배우겠다. 만약 파이썬이 없으면 <a href="https://www.python.org">여기</a>에 들어가 다운로드 한 후에 설치한다. 그리고 파이썬 모듈을 설치하기 위해 먼저 가상환경을 설치해야된다.</p>
 <p><br></p>
 <div id="python-설치법" class="section level3">
 <h3>Python 설치법</h3>
-<p>먼저 설치하려는 폴더로 이동한 후 가상환경을 설치한다.</p>
-<p><strong>가상환경 설치</strong></p>
-<pre><code>$ python3 -m venv &lt;가상환경이름&gt;</code></pre>
-<p>그리고 <code>reticulate</code> 패키지를 설치한다.</p>
+<p>먼저 <code>reticulate</code> 패키지를 설치한다.</p>
 <pre class="r"><code>install.packages(&#39;reticulate&#39;)</code></pre>
+<p>파이썬을 사용할때 R Console 창에 miniconda를 설치할꺼라고 나오면 <code>Y</code>를 눌러 아나콘다 환경을 설치한다. 기본으로 <code>reticulate</code>을 실행시키면 <code>r-reticulate</code>이라는 가상환경을 사용한다. 기본으로 <code>reticulate</code>은 <code>Sys.which(&quot;python&quot;)</code>에 설치된 파이썬을 사용한다.</p>
+<pre class="r"><code># 파이썬 정보
+py_config()
+
+# 아나콘다 버전
+conda_version()
+
+# 가상환경 리스트 보기 
+conda_list()
+
+# 가상환경 만들기
+conda_create(envname = &#39;가상환경&#39;)
+
+# 원하는 가상환경 사용
+use_condaenv(condaenv  = &quot;가상환경&quot;)
+
+# 파이썬 모듈 설치 
+conda_install(envname = &quot;가상환경&quot;, packages = c(&quot;모듈이름 1&quot;, &quot;모듈이름 2&quot;))
+
+# 모듈 제거
+conda_remove(envname = &quot;가상환경&quot;, packages = c(&quot;모듈이름 1&quot;, &quot;모듈이름 2&quot;))
+
+# 가상환경 제거
+conda_remove(env_name = &quot;가상환경&quot;)</code></pre>
+<p><code>use_condaenv()</code>를 사용하여 특정 가상환경을 사용하도록 했는데 원하는 가상환경이 아니라 <code>r-reticulate</code> 가상환경을 사용했다는 경고가 나올때가 있을것이다. 이것은 시스템이 만약 지정한 가상환경에 파이썬을 못 찾으면 PATH에 지정한 파이썬으로 불러오도록 되어있기 때문이다. 이것을 원하지 않으면 <code>required = TRUE</code>로 지정해주면 된다.</p>
+<pre class="r"><code>use_condaenv(condaenv = &quot;가상환경이름&quot;, required = TRUE)</code></pre>
+<p><br></p>
+<div id="예시" class="section level4">
+<h4><strong>예시</strong></h4>
+<p>그럼 새로운 <code>testing_venv</code>라는 가상환경을 만들어서 파이썬을 실행해 보겠다.</p>
+<pre class="r"><code>library(reticulate)</code></pre>
+<pre class="r"><code>conda_create(envname = &quot;testing_venv&quot;)
+use_condaenv(condaenv = &quot;testing_venv&quot;, required = TRUE)
+
+# py_install(&quot;모듈이름&quot;) 을 사용해 모듈을 설치할 수 있다.
+# 그러나 여기서는 conda_install()을 사용하겠다.
+
+conda_install(&quot;testing_venv&quot;, &quot;pandas&quot;)</code></pre>
+<pre class="python"><code>import pandas as pd
+
+df = pd.DataFrame([(1.45, 0.21, 0.49), (1.65, 0.87, 1.32)], columns=(&quot;Soju&quot;, &quot;Beer&quot;, &quot;Rice Wine&quot;), index=(&quot;Seoul&quot;, &quot;Busan&quot;))
+
+print(df)</code></pre>
+<pre><code>       Soju  Beer  Rice Wine
+Seoul  1.45  0.21       0.49
+Busan  1.65  0.87       1.32</code></pre>
+<pre class="python"><code>for i in range(10):
+  print(&quot;Hello&quot;, i)</code></pre>
+<pre><code>Hello 0
+Hello 1
+Hello 2
+Hello 3
+Hello 4
+Hello 5
+Hello 6
+Hello 7
+Hello 8
+Hello 9</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="윈도우에-가상환경-설치법" class="section level3">
+<h3>윈도우에 가상환경 설치법</h3>
+<p>따로 가상환경을 만들 수 도 있다. 먼저 명령 프롬프트를 열어 설치하고자 하는 폴더로 이동한다. 그리고 아래 코드를 실행시켜 가상환경을 만들고 활성화 시켜 원하고자 하는 패키지들을 설치하면 된다.</p>
+<pre><code>&gt; python -m venv (가상환경 이름)
+
+&gt; python -m venv rproj_venv</code></pre>
+<p><strong>가상환경 활성화</strong></p>
+<pre><code>&gt; 가상환경\있는\경로\Scripts\activate
+
+# 현재 프로젝트 폴더에 있다 가정하면...
+&gt; rproj_venv\Scripts\activate
+</code></pre>
+<p>맥 또는 우분투에서 가상환경 설치법은 <a href="https://github.com/whoareyouwhoami/ProjectTellus/blob/master/documentation/python_django.md">AWS Ubuntu EC2와 Python Django</a>를 참조하면 된다.</p>
 </div>
 
 
