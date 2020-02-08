@@ -30,13 +30,6 @@ install.packages('reticulate')
 ```
 
 
-```{r load_required, message=FALSE, echo=FALSE}
-
-source('required.R')
-
-```
-
-
 파이썬을 사용할때 R Console 창에 miniconda를 설치할꺼라고 나오면 `Y`를 눌러 아나콘다 환경을 설치한다. 기본으로 `reticulate`을 실행시키면 `r-reticulate`이라는 가상환경을 사용한다. 기본으로 `reticulate`은 `Sys.which("python")` 경로에 있는 파이썬을 사용한다.
 
 ```{r config_example1, eval=FALSE}
