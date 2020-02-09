@@ -1,6 +1,12 @@
 ---
 title: "Optical Character Recognition"
-output: html_document
+output: 
+  html_document:
+    highlight: textmate
+    theme: default
+    toc: true
+    toc_float: true
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -13,7 +19,7 @@ OCR이란 문자 인식 기술이다. 대부분 `tesseract`이라고 들어봤�
 
 <br>  
 
-### `tesseract` 설치
+### Tesseract 설치
 
 ```{r install_pkg_1, message=FALSE, eval=FALSE}
 
@@ -48,7 +54,7 @@ tesseract_params(filter="")
 
 <br>  
 
-### `tesseract` 예시  
+### Tesseract 예시  
 
 예제로 아래의 사진을 `tesseract`을 사용해서 문자들을 추출해보자. `ocr()`은 텍스트만 추출하고 `ocr_data()`를 사용하면 텍스트 및 적확성과 단어 위치 정보를 데이터프레임으로 반환한다. 밑에 사진에는 영어와 한국어가 있어서 `language` 인자에 `eng+kor`를 해주면 된다.
 
@@ -109,9 +115,9 @@ library(base64enc)
 library(tidyverse)
 ```
 
-먼저 이미지는 base64 인코딩으로 변환한다. 나머지 정보에 궁금하면 [ocr custom api](https://apidocs.ncloud.com/ko/ai-application-service/ocr/ocr/) 페이지를 참조하면 된다.
+이미지는 base64 인코딩으로 변환한다. 나머지 정보가 궁금하면 [ocr custom api](https://apidocs.ncloud.com/ko/ai-application-service/ocr/ocr/) 페이지를 참조하면 된다.
 
-```{r clova_call, eval=FALSE}
+```{r clova_call1}
 
 # 이미지 경로
 img_path <- "pics/example1.png"
@@ -156,5 +162,22 @@ req_api <- POST(url, add_headers(.headers = callheader), body = payloadjson)
 img_info <- req_api %>% content()
 
 
+```
+
+이제 불러온 결과를 깔끔히 정리해보겠다.  
+
+```{r clova_call2}
+
+img_data <- enframe(unlist(img_info))
+
+inftxt <- img_data %>% filter(name == 'images.fields.inferText')
+infconf <- img_data %>% filter(name == 'images.fields.inferConfidence')
+  
+result <- cbind(inftxt$value, infconf$value) %>%
+  magrittr::set_colnames(c("result","confidence")) %>% 
+  data.frame()
+
+
+result
 ```
 
