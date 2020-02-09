@@ -407,6 +407,57 @@ ocr_data(img, engine = tesseract(language = &quot;eng+kor&quot;))</code></pre>
 </div>
 <div id="naver-clova-ocr" class="section level3">
 <h3>Naver Clova OCR</h3>
+<p>이제 네이버 클로버 OCR 엔진을 사용해서 텍스트를 추출해 보겠다. 먼저 <a href="https://www.ncloud.com/">네이버 클라우드</a>에 가입해서 <code>General</code> 서비스 타입으로 OCR 도메인을 생성한다. 그리고 <code>Secret Key</code>를 생성한 후 아래와 같이 API 호출을 하면 된다.</p>
+<p>먼저 API 호출을 위해 필요한 패키지들을 설치한다.</p>
+<pre class="r"><code>install.packages(&quot;httr&quot;)
+install.packages(&quot;jsonlite&quot;)
+install.packages(&quot;base64enc&quot;)</code></pre>
+<pre class="r"><code>library(httr)
+library(jsonlite)
+library(base64enc)
+library(tidyverse)</code></pre>
+<p>먼저 이미지는 base64 인코딩으로 변환한다. 나머지 정보에 궁금하면 <a href="https://apidocs.ncloud.com/ko/ai-application-service/ocr/ocr/">ocr custom api</a> 페이지를 참조하면 된다.</p>
+<pre class="r"><code># 이미지 경로
+img_path &lt;- &quot;pics/example1.png&quot;
+
+
+# base64 인코딩
+encimg &lt;- base64encode(img_path)
+
+
+# api_url = APIGW Invoke URL (Clova OCR 도메인 정보에서서 확인)
+url &lt;- api_url
+
+
+# api_skey = Secret Key (Clova OCR 도메인 정보에서 확인)
+callheader &lt;- c(&quot;Content-Type&quot; = &quot;application/json&quot;,
+                &quot;X-OCR-SECRET&quot; = api_skey)
+
+
+# format = “jpg”, “jpeg”, “png” 형식 
+# name = 이미지 식별을 위한 이름 
+imagedata &lt;- list(&quot;format&quot; = &quot;png&quot;,
+                  &quot;data&quot; = encimg,
+                  &quot;name&quot; = &quot;image&quot;)
+
+
+# requestId = API 호줄 UUID
+payload &lt;- list(&quot;version&quot; = &quot;V1&quot;,
+                &quot;requestId&quot; = &quot;01&quot;,
+                &quot;timestamp&quot; = 0,
+                &quot;images&quot; = list(imagedata))
+
+
+# JSON 형식으로 변환
+payloadjson &lt;- toJSON(payload, auto_unbox=TRUE, pretty=FALSE)
+
+
+# API 호출
+req_api &lt;- POST(url, add_headers(.headers = callheader), body = payloadjson)
+  
+
+# 결과 
+img_info &lt;- req_api %&gt;% content()</code></pre>
 </div>
 
 

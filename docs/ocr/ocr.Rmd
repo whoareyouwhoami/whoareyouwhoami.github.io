@@ -15,14 +15,14 @@ OCR이란 문자 인식 기술이다. 대부분 `tesseract`이라고 들어봤�
 
 ### `tesseract` 설치
 
-```{r install_pkg, message=FALSE, eval=FALSE}
+```{r install_pkg_1, message=FALSE, eval=FALSE}
 
 install.packages("tesseract")
 
 ```
 
 
-```{r load_lib, message=FALSE}
+```{r load_lib_1, message=FALSE}
 
 library(tesseract)
 
@@ -86,10 +86,74 @@ ocr_data(img, engine = tesseract(language = "eng+kor",
 
 ### Naver Clova OCR  
 
-이제 네이버 클로버 OCR 엔진을 사용해서 텍스트를 추출해 보겠다. 먼저 [네이버 클라우드](https://www.ncloud.com/)에 가입해서 `General` 서비스 타입으로 OCR 도메인을 생성한다. 그리고 `Secret Key`를 생성한 후 아래와 같이 API 호출을 하면 된다.
+이제 네이버 클로버 OCR 엔진을 사용해서 텍스트를 추출해 보겠다. 먼저 [네이버 클라우드](https://www.ncloud.com/)에 가입해서 `General` 서비스 타입으로 OCR 도메인을 생성한다. 그리고 `Secret Key`를 생성한 후 아래와 같이 API 호출을 하면 된다.  
 
-```{r}
+먼저 API 호출을 위해 필요한 패키지들을 설치한다.
 
+```{r install_pkg_2, eval=FALSE}
+
+install.packages("httr")
+install.packages("jsonlite")
+install.packages("base64enc")
+
+```
+
+```{r load_required, echo=FALSE}
+source("required.R")
+```
+
+```{r load_lib_2, message=FALSE}
+library(httr)
+library(jsonlite)
+library(base64enc)
+library(tidyverse)
+```
+
+먼저 이미지는 base64 인코딩으로 변환한다. 나머지 정보에 궁금하면 [ocr custom api](https://apidocs.ncloud.com/ko/ai-application-service/ocr/ocr/) 페이지를 참조하면 된다.
+
+```{r clova_call, eval=FALSE}
+
+# 이미지 경로
+img_path <- "pics/example1.png"
+
+
+# base64 인코딩
+encimg <- base64encode(img_path)
+
+
+# api_url = APIGW Invoke URL (Clova OCR 도메인 정보에서서 확인)
+url <- api_url
+
+
+# api_skey = Secret Key (Clova OCR 도메인 정보에서 확인)
+callheader <- c("Content-Type" = "application/json",
+                "X-OCR-SECRET" = api_skey)
+
+
+# format = “jpg”, “jpeg”, “png” 형식 
+# name = 이미지 식별을 위한 이름 
+imagedata <- list("format" = "png",
+                  "data" = encimg,
+                  "name" = "image")
+
+
+# requestId = API 호줄 UUID
+payload <- list("version" = "V1",
+                "requestId" = "01",
+                "timestamp" = 0,
+                "images" = list(imagedata))
+
+
+# JSON 형식으로 변환
+payloadjson <- toJSON(payload, auto_unbox=TRUE, pretty=FALSE)
+
+
+# API 호출
+req_api <- POST(url, add_headers(.headers = callheader), body = payloadjson)
+  
+
+# 결과 
+img_info <- req_api %>% content()
 
 
 ```
