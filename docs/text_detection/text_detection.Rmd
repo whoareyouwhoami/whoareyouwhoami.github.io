@@ -7,4 +7,62 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-이 문서는 파이썬에서 OpenCV를 사용하여 이미지 안에 글자를 추출하는 방식을 구현해 보겠다. 자세한 스크립트는 [여기]()를 통해 확인하면 된다.
+이 문서는 파이썬에서 OpenCV를 사용하여 다양한 이미지 안에 글자를 추출하는 방식을 구현해 보겠다. 자세한 스크립트는 [여기]()를 통해 확인하면 된다. 
+
+
+### Example 1  
+
+![](pics/example.jpg)  
+[이미지 출처](https://www.google.com/url?sa=i&url=http%3A%2F%2Fn894.ndsoftnews.com%2Fnews%2FarticleView.html%3Fidxno%3D89070&psig=AOvVaw2_ZML8M0NkPzVhbq_YTRRD&ust=1581909643517000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIiy7uWO1ecCFQAAAAAdAAAAABAN)  
+
+이번 예제에서는 위 그림에 있는 단어들을 Tesseract 또는 Naver Clova OCR을 사용해서 추출 해보겠다.  
+
+```{python, eval=FALSE}
+
+import cv2
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+```
+
+이제 이미지를 불러와서 Grayscale로 변경할 것이다. 위 그림은 3원색인 R(red), G(green), B(blue) 형태로 구성되어 있다. 그러나 이미지 처리를 할때 3원색을 가지고 하는것보다 1원색인 Grayscale로 변환하는게 편하다. 제이 간단한 방법은 3원색을 더해 3으로 나누어서 평균값을 사용해서 Grayscale 값을 구하는거다. OpenCV에서는 `cv2.RGB2GRAY`를 통해 바로 Grayscale 이미지를 추출할 수 있다.
+
+```{python, eval=FALSE}
+
+# Step 1: 이미지 원본
+img_original = cv2.imread('pics/example.jpg')
+
+# Step 2: Grayscale 변경
+img_gray = cv2.cvtColor(img_original, cv2.COLOR_BGR2GRAY)
+
+```
+
+
+![Grayscale 이미지](pics/example_gray.png)  
+
+Grayscale 이미지는 0 ~ 255 까지의 색상값이 있다. 이미지 안에 텍스트를 추출하려면 나중에 Contouring 이라는 작업을 해야한다. 그러기 위해서는 이미지를 흑백 이진화를 해야한다. 그 전에 임계값 (threshold)를 찾아야한다. 색상값이 임계값보다 작으면 검정색으로 변하고 임계값보다 높으면 흰색으로 변한다. 이것을 Global Threshold이라고도 한다.
+
+이 문제에서 임계값은 색상의 분포를 보고 정하겠다.  
+
+```{python, eval=FALSE}
+
+# 이미지 색상값 분포
+plt.hist(img_gray.ravel(), 256, [0, 256])
+plt.show()
+
+
+```
+
+![색상값 분포](pics/threshold.png)  
+
+이미지 색상에서 주요 생상값은 50 이하로 이번 예제에서 임계값을 50으로 정하겠다. Global Threshold는 직접 임계값을 찾아야 하지만 Adaptive Threshold 방법을 사용하면 적합한 임계값을 찾아 변환한다. 이 방법은 다른 예제에서 사용해보겠다.
+
+```{python, eval=FALSE}
+_, thresh = cv2.threshold(img_gray, 50, 255, cv2.THRESH_BINARY)
+
+```
+
+![](pics/example_thresh.png)
+
+
