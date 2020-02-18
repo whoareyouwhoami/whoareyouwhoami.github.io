@@ -91,4 +91,14 @@ closing = cv2.morphologyEx(dilation, cv2.MORPH_CLOSE, kernel)
 
 <br>  
 
-이제 Contour를 적용하여 흰 픽셀이 뭉쳐있는 부분을 찾아보겠다.
+이제 Morph Close를 적용한 그림에 Contour를 적용하여 흰 픽셀이 뭉쳐있는 부분을 찾아내서 원본에다 그려보겠다.
+
+```{python, eval=FALSE}
+
+contours, hierarchy = cv2.findContours(closing, cv2.RETR_EXTERNAL, 3)
+
+img_contour = cv2.drawContours(img_original, contours, -1, (0, 255, 0), 3)
+
+```
+
+![](pics/contour.png)
