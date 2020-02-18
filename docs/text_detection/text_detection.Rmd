@@ -41,7 +41,7 @@ img_gray = cv2.cvtColor(img_original, cv2.COLOR_BGR2GRAY)
 
 ![Grayscale 이미지](pics/example_gray.png)  
 
-Grayscale 이미지는 0 ~ 255 까지의 색상값이 있다. 이미지 안에 텍스트를 추출하려면 나중에 Contouring 이라는 작업을 해야한다. 그러기 위해서는 이미지를 흑백 이진화를 해야한다. 그 전에 임계값 (threshold)를 찾아야한다. 색상값이 임계값보다 작으면 검정색으로 변하고 임계값보다 높으면 흰색으로 변한다. 이것을 Global Threshold이라고도 한다.
+Grayscale 이미지는 0 ~ 255 까지의 색상값이 있다. 이미지 안에 텍스트를 추출하려면 나중에 coutring으로 추출한다. 그러기 위해서는 이미지를 흑백 이진화로 전환하는게 적절하다. 그 전에 임계값 (threshold)를 찾아야한다. 색상값이 임계값보다 작으면 검정색으로 변하고 임계값보다 높으면 흰색으로 변한다. 이것을 Global Threshold이라고도 한다.
 
 이 문제에서 임계값은 색상의 분포를 보고 정하겠다.  
 
@@ -65,4 +65,30 @@ _, thresh = cv2.threshold(img_gray, 50, 255, cv2.THRESH_BINARY)
 
 ![](pics/example_thresh.png)
 
+위에 그림에 바로 contour를 추출하면 한 단어들이 여려개로 쪼개질 수 있다. 그래서 하얀색 픽셀값들을 한 덩어리로 뭉치게하면 contour로 쉽게 분리할 수 있다. 여기서는 Dilation을 한 후 Morph Close 방법을 사용하겠다. 이를 하기 위해 적절한 커널값이 필요하다. 자세한 내용은 곧 다른 문서에 자세히 작성하겠다.  
 
+```{python, eval=FALSE}
+# 커널 크기 
+kernel = np.ones((5,5) ,np.uint8)
+
+# Dilation 
+dilation = cv2.dilate(thresh, kernel, iterations = 2)
+
+```
+
+![](pics/example_dilation.png)  
+
+```{python, eval=FALSE}
+# Morph Close
+closing = cv2.morphologyEx(dilation, cv2.MORPH_CLOSE, kernel)
+
+```
+
+
+![](pics/example_closing.png)
+
+비록 Morph Close와 Dilation 결과를 비교했을 때 크게 다르지는 않지만 Contour 추출을 위해 두가지 방법을 다 사용했다...  
+
+<br>  
+
+이제 Contour를 적용하여 흰 픽셀이 뭉쳐있는 부분을 찾아보겠다.
