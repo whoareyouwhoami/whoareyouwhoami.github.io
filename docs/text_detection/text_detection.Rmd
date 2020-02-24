@@ -7,10 +7,19 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<style>
+.col2 {
+    columns: 2 200px;         /* number of columns and width in pixels*/
+    -webkit-columns: 2 200px; /* chrome, safari */
+    -moz-columns: 2 200px;    /* firefox */
+  }
+</style>
+
+
 이 문서는 파이썬에서 OpenCV를 사용하여 다양한 이미지 안에 글자를 추출하는 방식을 구현해 보겠다. 자세한 스크립트는 [여기]()를 통해 확인하면 된다. 
 
 
-### Example 1  
+### **Example 1**  
 
 ![](pics/example.jpg)  
 [이미지 출처](https://www.google.com/url?sa=i&url=http%3A%2F%2Fn894.ndsoftnews.com%2Fnews%2FarticleView.html%3Fidxno%3D89070&psig=AOvVaw2_ZML8M0NkPzVhbq_YTRRD&ust=1581909643517000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIiy7uWO1ecCFQAAAAAdAAAAABAN)  
@@ -102,3 +111,142 @@ img_contour = cv2.drawContours(img_original, contours, -1, (0, 255, 0), 3)
 ```
 
 ![](pics/contour.png)
+
+원하는 부분에 Contour가 잘 적용되어 있다. 그런데 면적이 작은 부분이 있으므로 큰 부분만 추출해 보겠다.
+
+```{python, eval=FALSE}
+contour_pos = []
+
+# 면적이 100 이하인 Contour 영역은 제거
+for pos in range(len(contours)):
+    area = cv2.contourArea(contours[pos])
+    if area > 100:
+        contour_pos.append(pos)
+
+# 면적 부분 오려내기
+for pos in contour_pos:
+    x, y, w, h = cv2.boundingRect(contours[pos])
+    img_crop = img_temp[y:y + h, x:x + w]
+
+```
+
+
+그런데 `사진 2`를 보면 `사진 1`에 포한된 부분이 있다. 만약 OCR 엔진에 돌리면 추출 될 텍스트가 중복될 수 있으므로 Contour 부분 외에는 다 검은색으로 변환해 보겠다. 다른 사진들은 잘 안보이겠지만... 자세히 보면 다르다... 
+
+**사진 1**  
+
+<div class="col2">
+![Before](pics/crop0.png)  
+
+![After](pics/crop_new37.png)  
+
+</div>  
+
+
+**사진 2**  
+
+<div class="col2">
+![Before](pics/crop1.png)  
+
+![After](pics/crop_new76.png)  
+
+</div>  
+
+**사진 3**  
+
+<div class="col2">
+![Before](pics/crop2.png)  
+
+![After](pics/crop_new30.png)  
+
+</div>  
+
+**사진 4**  
+
+<div class="col2">
+![Before](pics/crop5.png)  
+
+![After](pics/crop_new22.png)  
+
+</div>  
+
+<br>  
+
+이미지 왼쪽부터 Contour 영역 사이에 있는 픽셀값들을 구해 검은색으로 변환시켰다.
+
+```{python, eval=FALSE}
+
+for p in contour_pos:
+    img_temp = cv2.imread('pics/example.jpg')
+    img_orig = cv2.imread('pics/example.jpg')
+    x, y, w, h = cv2.boundingRect(contours[p])
+
+    cnt = contours[p]
+    area = cv2.contourArea(cnt)
+
+    area_box = w*h
+
+    img_contour = cv2.drawContours(img_orig, contours, p, (0, 255, 0), 1)
+
+    cnt = contours[p]
+    M = cv2.moments(cnt)
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+
+    for i in range(y, y + h):
+        px_lst = img_contour[i]
+
+        for j in range(x, x + w):
+            if (px_lst[j] == [0, 255, 0]).all():
+                cv2.line(img_contour, (j, i), (cx, cy), (1, 2, 3), 2)
+
+
+    img_crop = img_contour[y:y + h, x:x + w]
+
+    for i in range(y, y + h):
+        px_lst = img_contour[i]
+
+        for j in range(x, x + w):
+            if (px_lst[j] != [1, 2, 3]).all():
+                cv2.line(img_temp, (j, i), (j, i), (0, 0, 0), 2)
+
+
+    img_save = img_temp[y:y + h, x:x + w]
+    
+    cv2.imshow("Image", img_save)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    
+```
+
+<br>  
+
+### 텍스트 추출  
+
+여기서 나온 이미지들을 이제 Tesseract 또는 Clova OCR 엔진을 사용해서 추출하면 된다. 그러나 Tesseract은 이미지가 작으면 텍스트 추출이 잘 안될때가 많다. 그래서 Naver Clova OCR 엔진을 사용하는걸 추천한다. 
+
+```{r load_required, echo=FALSE}
+source("required.R")
+```
+
+```{r load_lib, message=FALSE}
+library(httr)
+library(jsonlite)
+library(base64enc)
+library(tidyverse)
+library(magrittr)
+```
+
+[OCR](docs/ocr/ocr.html) 문서를 보면 Tesseract OCR이랑 Clova OCR 사용법에 대해 나와있다. 이 문서에 나온 Clova OCR 사용법을 `ocr_clova()`라는 함수로 만들었다. 현재 api 호출을 많이 한 상태라 글자가 있는 사진만 Clova OCR 엔진에 돌려보겠다.
+
+```{r clova_call}
+# 사진 1
+ocr_clova(img_path='pics/crop_new37.png')
+
+# 사진 3
+ocr_clova(img_path='pics/crop_new30.png')
+
+```
+
+결과를 보면 사진에 있는 텍스트와 똑같이 나왔다. Clova OCR은 호출 한도를 넘기면 돈을 내야된다는것 빼고는 한국어 추출에는 매우 좋은 엔진이다. 지금은 직접 텍스트가 있는 사진을 골라 OCR에 돌렸지만 다음에는 딥러닝을 사용해서 이미지에 텍스트가 포함되었있는지 구분하고 OCR에 돌리는 예제를 만들어 보겠다.
+
