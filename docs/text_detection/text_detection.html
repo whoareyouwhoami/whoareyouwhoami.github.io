@@ -378,7 +378,7 @@ import pandas as pd
 import matplotlib.pyplot as plt</code></pre>
 <p>이제 이미지를 불러와서 Grayscale로 변경할 것이다. 위 그림은 3원색인 R(red), G(green), B(blue) 형태로 구성되어 있다. 그러나 이미지 처리를 할때 3원색을 가지고 하는것보다 1원색인 Grayscale로 변환하는게 편하다. 제이 간단한 방법은 3원색을 더해 3으로 나누어서 평균값을 사용해서 Grayscale 값을 구하는거다. OpenCV에서는 <code>cv2.RGB2GRAY</code>를 통해 바로 Grayscale 이미지를 추출할 수 있다.</p>
 <pre class="python"><code># Step 1: 이미지 원본
-img_original = cv2.imread(&#39;pics/example.jpg&#39;)
+img_original = cv2.imread('pics/example.jpg')
 
 # Step 2: Grayscale 변경
 img_gray = cv2.cvtColor(img_original, cv2.COLOR_BGR2GRAY)</code></pre>
