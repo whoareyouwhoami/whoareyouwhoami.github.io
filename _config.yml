@@ -1,6 +1,6 @@
 # theme: jekyll-theme-slate
 remote_theme: thelehhman/texture
-theme: texture
+theme: jekyll-theme-minimal
 
 
 texture:
