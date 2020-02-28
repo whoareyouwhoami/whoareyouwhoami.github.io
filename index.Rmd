@@ -1,5 +1,8 @@
 ---
-layout: default
+title: ""
+author: ""
+date: ""
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
