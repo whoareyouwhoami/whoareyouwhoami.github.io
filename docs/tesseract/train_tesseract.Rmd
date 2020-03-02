@@ -1,0 +1,59 @@
+---
+title: "Tesseract 학습시키기"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+이 문서는 Tesseract을 학습시키는 과정을 알아보겠다. 학습을 위해 Ubuntu 18.04 운영체제를 사용했다.
+
+<br>  
+
+### 설치 가이드
+
+**1. 먼저 Tesseract을 설치하고 학습 시작 전 필요한 패키지들을 설치한다.**
+
+```
+# Tesseract 학습 전 필요한 패키지
+$ sudo apt-get update
+$ sudo apt-get install libicu-dev libpango1.0-dev libcairo2-dev
+
+# Tesseract 설치
+$ sudo apt install tesseract-ocr
+$ sudo apt install libtesseract-dev
+
+```  
+
+**2. Ubuntu 18.04에는 `Leptonica` 패키지가 설치되어 있을 것이다. 안되어 있다면 아래 코드를 통해 설치하면 된다.**
+
+```
+$ sudo apt-get install libleptonica-dev
+```
+
+
+
+<br>
+
+### 기타  
+
+**한국어 설치**  
+
+한국어 설치를 위해서는 먼서 `tessdata` 폴더로 이동해야 된다.
+
+```
+# 3곳 중 한 곳에 있을꺼다
+$ cd /usr/share/tesseract-ocr/tessdata
+$ cd /usr/share/tessdata
+$ cd /usr/share/tesseract-ocr/4.00
+
+```
+
+폴더로 이동 후 아래 코드를 실행시켜 한국어를 설치한다.  
+
+```
+$ sudo curl -O https://github.com/tesseract-ocr/tessdata/raw/4.00/kor.traineddata
+```
+
+
