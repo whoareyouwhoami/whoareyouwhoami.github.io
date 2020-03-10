@@ -366,8 +366,24 @@ summary {
 </div>
 
 
-<p>이 문서는 Tesseract을 학습시키는 과정을 알아보겠다. 학습을 위해 Ubuntu 18.04 운영체제를 사용했다.</p>
-<p><br></p>
+<p>이 문서는 Tesseract 4.00을 학습시키는 과정을 알아보겠다. 학습을 위해 Ubuntu 18.04 운영체제를 사용했다. 학습에 사용될 데이터는 <a href="http://www.aihub.or.kr/">AI Hub</a>에서 제공하는 한국어 글자체 이미지 데이터를 사용했다. Tesseract 학습에 자세한 내용은 <a href="https://tesseract-ocr.github.io/tessdoc/TrainingTesseract-4.00#tutorial-guide-to-lstmtraining">여기</a>를 확인하면 된다.</p>
+<div id="학습-절차" class="section level3">
+<h3>학습 절차</h3>
+<ul>
+<li>학습할 이미지 데이터 준비 (png/tif 파일)</li>
+<li>박스 파일 생성 및 수정</li>
+<li>unicharset 파일 생성</li>
+<li>.lstmf 파일 생성</li>
+<li>학습 시키기</li>
+<li>이전 학습 파일과 합치기</li>
+</ul>
+</div>
+<div id="학습-옵션" class="section level3">
+<h3>학습 옵션</h3>
+<p><strong>1. 튜닝 (Fine tune)</strong><br />
+<strong>2. 레이어 교체</strong><br />
+<strong>3. 새로 학습 시키기</strong></p>
+</div>
 <div id="설치-가이드" class="section level3">
 <h3>설치 가이드</h3>
 <p><strong>1. 먼저 Tesseract을 설치하고 학습 시작 전 필요한 패키지들을 설치한다.</strong></p>
