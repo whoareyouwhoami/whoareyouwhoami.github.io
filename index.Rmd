@@ -11,8 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Personal Blog
 
-- [EC2 설치법](docs/ec2/ec2.html)
-- [R에서 Python 사용법](docs/python_in_r/python_in_r.html)
-- [OCR 사용법](docs/ocr/ocr.html)
-- [Tesseract 설치](docs/ocr/tesseract_install.html)
-- [Text Detection (글자 인식)](docs/text_detection/text_detection.html)
+- [EC2 설치법](docs/ec2/ec2.html)  
+- [R에서 Python 사용법](docs/python_in_r/python_in_r.html)  
+- [OCR 사용법](docs/ocr/ocr.html)  
+- [Tesseract 설치](docs/ocr/tesseract_install.html)  
+- [Text Detection (글자 인식)](docs/text_detection/text_detection.html)  
+- [Data Structure (자료구조)](docs/personal/datastructure_n_algorithms.html)  
