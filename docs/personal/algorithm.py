@@ -60,3 +60,29 @@ def binary_insertion_sort(arr):
 
 result = binary_insertion_sort(input_array)
 print(result)
+
+
+# Counting Sort
+input_array = [1, 0, 3, 1, 3, 1, 5, 7, 7, 5, 1, 1]
+
+def counting_sort(arr):
+    key_array = [0 for i in range(10)]
+
+    for key_idx in arr:
+        key_array[key_idx] += 1
+
+    for i in range(0, len(key_array) - 1):
+        key_array[i + 1] = key_array[i + 1] + key_array[i]
+
+    key_array.insert(0,0)
+
+    output = []
+    for i in range(0, len(key_array) - 1):
+        start = key_array[i]
+        end = key_array[i + 1]
+        for j in range(len(key_array[start:end])):
+            output.append(i)
+
+    return output
+
+print(counting_sort(input_array))
