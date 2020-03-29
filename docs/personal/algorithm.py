@@ -86,3 +86,38 @@ def counting_sort(arr):
     return output
 
 print(counting_sort(input_array))
+
+
+# Rabin-Karp
+text = 'cdabaacda'
+find_chr = 'cda'
+
+# Let's say we have a hash table with values for each characters from a to j
+hash_dict = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8, 'i': 9, 'j': 10}
+
+def rabin_karp(text, chr):
+    chr_val = sum([hash_dict[char] for char in chr])
+    chr_len = len(chr)
+    found = 0
+    for pos in range(len(text) - len(chr) + 1):
+        chr_compare = text[pos:pos + chr_len]
+        chr_compare_val = sum([hash_dict[char] for char in chr_compare])
+
+        check = 0
+
+        if chr_val == chr_compare_val:
+            for i in range(chr_len):
+                if chr[i] == chr_compare[i]:
+                    check += 1
+                else:
+                    pass
+            if check == chr_len:
+                print('Found a match pair!')
+                found += 1
+        else:
+            pass
+    if found == 0:
+        print('No matching pair!')
+
+
+rabin_karp(text, find_chr)
