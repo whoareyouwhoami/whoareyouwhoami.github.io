@@ -1,0 +1,335 @@
+---
+title: ""
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Network Data Analysis
+
+What is a network? We can easily say a network is a grpah (something we encounter a lot in data structure and algorithm courses). Unlike tree strcuture which has a starting point (root node), a graph have vertices (nodes) and connections (edges) between them. We can say that the pairs of vertices are somewhat related and there are two types of graphs, **Directed** and **Undirected**.
+
+  - **Vertices**: The objects correspond to mathematical abstraction.
+  - **Edges**: Connections between vertices.
+  - **Directed Graph**: Edges have one direction. (Ordered pairs of vertices)
+  - **Undirected Graph**: Edges have both directions. (Unordered pairs of vertices)
+
+<br>
+
+So now the question is... how do we analyze a network? Well first thing we can do is to visualize it. We can find if there are any clusters among the vertices or any relationships between them. Also, we can see numerical summaries to see the characteristics of the data. We can apply these steps when the network exists. But don't you think it is important to consider how the network was created from the first place? We cannot apply visualization if the network doesn't exist! Thus, it is important to take account the underlying process of network creations.
+
+There are two classes of network models:
+  
+  - **Mathematical Network Model**: Generating a network through probablistic rules.
+  - **Statistical Network Model**: Generating a network by applying statistical inference and assuming that it will be fitted to observed data.
+
+
+Examples:  
+
+  - Erdos-Renyi model  
+  - Exponential random graph model  
+  - Latent network model  
+  - Stochastic block model  
+
+
+<br>
+
+Now, we will need to install and load some packages to apply network data analysis.
+
+```{r pkg_install, eval=FALSE}
+install.packages("sand", repos="http://cran.us.r-project.org")
+install.packages("igraph", repos="http://cran.us.r-project.org")
+```
+
+
+```{r pkg_load, message=FALSE}
+library(sand)
+library(igraph)
+```
+
+
+
+### Network Graph
+
+Graph can be expressed as $G = (V, E)$, where $V$ is a set of vertices (nodes) and $E$ is a set of edges (links). Moreover, elements of $E$ can be expressed as ${u, v}$ in unordered pairs (undirected graph) and $(u, v)$ in a directed graph, where $u$ and $v$ are distinct vertices $u, v \in V$ 
+
+**Undirected graph**
+```{r graph_undirect, eval=FALSE}
+# Creating a graph
+g <- graph.formula(1-2, 1-3, 2-3, 2-4, 3-5, 4-5, 4-6, 4-7, 5-6, 6-7)
+
+# Vertices
+V(g)
+
+# Edges
+E(g)
+
+# To access above features in one simple command
+print_all(g)
+
+# Visualizing a graph
+plot(g)
+
+```
+
+
+**Directed graph**
+
+```{r graph_direct, eval=FALSE}
+# Simply change - to +
+dg <- graph.formula(1-+2, 1-+3, 2++3)
+
+# Labelling vertices
+V(dg)$names <- c("Sam", "Mary", "Tom")
+
+print_all(dg)
+
+# Alternative way to create same graph
+dg <- graph.formula(Sam-+Mary, Sam-+Tom, Mary++Tom)
+
+print_all(dg)
+```
+
+
+#### Representations of Graphs
+
+There are three basic formats:  
+
+  - Edge list
+  - Adjacency list
+  - Adjacency matrix
+
+An **edge list** is a simple two-column list of all pairs of vertices joined by an edge.
+
+```{r graph_edgelist, eval=FALSE}
+# To check edges
+E(dg)
+
+# To get edge list
+get.edgelist(dg)
+```
+
+**Adjacency matrix** is another method of storing graph data in a matrix form. if the two vertices are connected, it will return 1 and 0 otherwise. However, we can use **adjacency list** to see connections of vertices only (without 0).
+
+```{r graph_adjmatrix, eval=FALSE}
+# Adjacency Matrix
+get.adjacency(g)
+
+# Adjacency List
+get.adjedgelist(g)
+get
+```
+
+
+#### Operations on Graphs
+
+To capture a part of a graph is called **subgraph**. A graph $Q = (V_{Q}, E_{Q})$ is a subgraph of graph $G = (V_{G}, E_{G})$ if $V_{Q} \subseteq V_{G}$ and $E_{H} \subseteq E_{G}$.
+
+```{r graph_subgraph, eval=FALSE}
+## Creating subgraph
+# Method 1
+h <- induced.subgraph(g, 1:5)
+
+print_all(h)
+
+# Method 2
+h <- g - vertices(c(6,7))
+
+print_all(h)
+
+
+## Creating graph `g` from a subgraph `h` by + or - 
+h <- h + vertices(c(6,7))
+g <- h + edges(c(4,6),c(4,7),c(5,6),c(6,7))
+
+
+## Creating graph `g` from a subgraph `h` with set theories
+h1 <- h
+h2 <- graph.formula(4-6, 4-7, 5-6, 6-7)
+
+print_all(h2)
+
+# Union
+g <- graph.union(h1, h2)
+```
+
+
+#### Decorating Network Graphs
+
+We can set attributes/values to vertices or edges in a graph. They can be either discrete or continous type.
+
+- **Vertex attribute**: Values of variables indexed by vertices.
+- **Edge attribtute**: Values of variables indexed by adjacent vertex pairs.
+
+```{r graph_attributes, eval=FALSE}
+# Vertex attributes
+V(dg)$name # We set the name attributes for vertices in graph `dg` before
+V(dg)$gender <- c("M", "F", "M")
+V(g)$color <- "red"
+
+```
+
+We can think of edge attributes as a weight. They are generally non-negative values and are often scaled to be between 0 and 1.
+
+```{r graph_attributes_weight, eval=FALSE}
+# Check if a graph is weighted
+is.weighted(g) # -> Will return FALSE
+
+# To apply weights on them
+wg <- g
+E(wg)$weight <- runif(ecount(wg))
+
+E(wg)$weight
+
+is.weighted(wg) # -> Will return TRUE
+
+```
+
+
+#### Using Data Frame
+
+We can also create a network graph with two data frames containing vertex information and edge information.
+
+```{r graph_usingDF, eval=FALSE}
+# Load `Lazega` data from `sand` package
+g.lazega <- graph.data.frame(elist.lazega, directed="FALSE", vertices=v.attr.lazega)
+
+g.lazega$name = "Lazega Lawyers"
+
+# Counting vertices
+vcount(g.lazega)
+
+# Counting edges
+ecount(g.lazega)
+
+# Vertex attributes
+list.vertex.attributes(g.lazega)
+```
+
+
+#### Graph Concepts
+
+A **simple graph** is a graph that has no loops (edges connecting to a single vertex) and no pairs of vertices with more than one edge between them (multi-edges). A graph that has neither one of the condition above is called a **multi-graph**.
+
+```{r graph_multi_1, eval=FALSE}
+# Check if a grpah is a simple graph
+is.simple(g) # -> return TRUE
+
+# Creating multi graph
+mg <- g + edge(2,3)
+
+print_all(mg)
+
+is.simple(mg) # -> return FALSE
+```
+
+We can also add weights and transform a multi-graph into a weighted graph, where each edge will have weighted value.
+
+```{r graph_multi_2, eval=FALSE}
+E(mg)$weight <- 1
+
+wg2 <- simplify(mg)
+
+is.simple(wg2)
+
+print_all(wg2)
+
+E(wg2)$weight
+```
+
+Moreover, two vertices $u, v$ are said to be adjacent if they are joined by an edge in $E$. The connected vertices can be referred as `neighbors.` Also, we can find the  numbers of edges that either goes out or in to a vertex by `degree`
+
+```{r graph_multi_3, eval=FALSE}
+# Neighbors
+neighbors(g,5)
+
+# Degree
+degree(g)
+
+degree(dg, mode="in")
+
+degree(dg, mode="out")
+```
+
+
+#### Concepts of movements
+
+- **Walk**: Number of edges between starting point to end point.
+- **Trail**: Walks without repeated edges and paths.
+- **Cyclic**: If a length of a walk is at least 3 and starting & ending vertices are the same, it is called a cyclic. (All other vertices have to be distinct from each other.)
+- **Reachable**: Vertex $v$ is reachable from other vertex $u$ if a walk exist between them.
+- **Connected**: A graph is called connected if every vertices are reachable from one another.
+
+
+```{r graph_movements, eval=FALSE}
+# Check if a graph is connected
+is.connected(g)
+
+clusters(g)
+
+## Strongly connected:
+#   If every vertex v is reachable from every u by a directed walk
+is.connected(dg, mode="strong")
+
+## Weakly connected
+is.connected(dg, mode="weak")
+
+
+## Finding longest distance in a graph
+diameter(g, weights=NA)
+```
+
+
+#### Special Types of Graphs
+
+- **Complete graph**: A graph where every verteices are joined by an edge.
+
+- **Regular graph**: A graph where every vertex has same degree. (A regular graph iwth common degree $d$ is called $d$-regular)
+
+- **Tree**: A connected graph with no cycles. The disjoint of a tree is called a **forest**
+
+- **k-start**: A tree with one root and $k$ leaf nodes
+
+- **Directed Acyclic Graph (DAG)**: A graph that is directed in one way and has no cycles.
+
+- **Bipartite graph**: A graph where a set of vertices may be partitioned into two disjoint sets.
+
+```{r graph_specials, eval=FALSE}
+## Complete graph
+g.full <- graph.full(7)
+
+plot(g.full)
+
+## Regular graph
+g.ring <- graph.ring(7)
+
+plot(g.ring)
+
+## Tree 
+g.tree <- graph.tree(7, children=2, mode="undirected")
+
+plot(g.tree)
+
+## K-star
+g.star <- graph.star(7, mode="undirected")
+
+plot(g.start)
+
+## Directed Acyclic Graph (DAG)
+is.dag(dg)
+
+## Bipartite graph
+g.bip <- graph.formula(actor1:actor2:actor3, movie1:movie2,actor1:actor2 - movie1, actor2:actor3 - movie2)
+
+V(g.bip)$type <- grepl("^movie", V(g.bip)$name)
+
+print_all(g.bip, v=T)
+
+# Projection onto corresponding vertex subset
+proj <- bipartite.projection(g.bip)
+
+print_all(proj[[1]])
+print_all(proj[[2]])
+```
