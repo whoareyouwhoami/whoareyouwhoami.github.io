@@ -11,11 +11,39 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Personal Blog
 
-- [EC2 설치법](docs/ec2/ec2.html)  
-- [R에서 Python 사용법](docs/python_in_r/python_in_r.html)  
+**Project Tellus**  
+
+- [EC2 사용해 Django 설치](docs/ProjectTellus/python_django.html)
+- [uWSGI, Nginx, EC2 사용하여 Django 배포](docs/ProjectTellus/uwsgi_nginx.html)
+- [Cron 사용법](docs/ProjectTellus/crontab_guide.html)
+
+<br>
+
+**자료구조와 알고리즘**
+
+- [Data Structure & Algorithms (1)](docs/personal/datastructure_n_algorithms.html)  
+- [Data Structure & Algorithms (2)](docs/personal/algorithm.html)  
+
+<br>
+
+**네트워크 자료 분석**
+
+- [Network Data Analysis](docs/network/network_data_analysis.html)
+
+<br>
+
+**Tesseract**
+
 - [OCR 사용법](docs/ocr/ocr.html)  
 - [Tesseract 설치](docs/ocr/tesseract_install.html)  
 - [Text Detection (글자 인식)](docs/text_detection/text_detection.html)  
-- [Data Structure & Algorithms (1)](docs/personal/datastructure_n_algorithms.html)  
-- [Data Structure & Algorithms (2)](docs/personal/algorithm.html)  
-- [Network Data Analysis](docs/network/network_data_analysis.html)
+
+<br>
+
+**Fun**
+
+- [EC2 설치법](docs/ec2/ec2.html)  
+- [R에서 Python 사용법](docs/python_in_r/python_in_r.html)  
+
+
+
