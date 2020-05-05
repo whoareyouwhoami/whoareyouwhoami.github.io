@@ -1,5 +1,5 @@
 ---
-title: "Tesseract 학습시키기"
+title: "Tesseract 학습"
 output: html_document
 ---
 
@@ -7,22 +7,24 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-이 문서는 Tesseract 4.00을 학습시키는 과정을 알아보겠다. 학습을 위해 Ubuntu 18.04 운영체제를 사용했다. 학습에 사용될 데이터는 [AI Hub](http://www.aihub.or.kr/)에서 제공하는 한국어 글자체 이미지 데이터를 사용했다. Tesseract 학습에 자세한 내용은 [여기](https://tesseract-ocr.github.io/tessdoc/TrainingTesseract-4.00#tutorial-guide-to-lstmtraining)를 확인하면 된다.  
 
+이 문서는 Tesseract 4.00을 학습시키는 과정을 알아보겠다. Tesseract을 설치해 한국어를 사용하면 결과가 생각보다 잘 안 나올 때가 많다. 인터넷에 찾아보면 주로 아랍어 학습이 많이 나오지만 CJK에 대한 학습은 찾아보기 힘들다. 그래서 한번 한국어 학습을 시켜 정확성을 올릴 수 있는지 실험을 해보기로 했다. 자세한 학습은 [tess4korean](https://github.com/whoareyouwhoami/tess4korean)에서 확인하면 된다.
 
-### 학습 옵션
-
-**1. 튜닝 (Fine tune)**  
-**2. 레이어 교체**  
-**3. 새로 학습 시키기**
-
-
-### 학습 절차  
-[tesstutorial](https://tesseract-ocr.github.io/tessdoc/TrainingTesseract-4.00#tesstutorial)을 보면 바로 `tesstrain.sh` 스크립트를 실행시키면 학습에 필요한 데이터들을 만들어 주어서 글꼴만 있으면 바로 학습이 가능하다. 그 외에도 [tesstrain](https://github.com/tesseract-ocr/tesstrain) 레포를 보면 이미지를 사용한 학습을 볼 수 있다.
+**Tesseract 학습은 Ubuntu 18.04 운영 체제에서 했으며 [AI Hub](http://www.aihub.or.kr/)에서 한국어 글자체 이미지 데이터를 받아서 학습했다.**
 
 <br>
 
-그럼 학습 절차가 어떻게 되는지 알아보겠다. 
+### 학습 옵션  
+
+Tesseract 학습은 3가지로 분류할 수 있다.
+
+  1. **튜닝 (Fine tune)**
+  2. **레이어 교체**
+  3. **새로 학습 시키기**
+
+### 학습 절차  
+
+학습을 시작하기 전에 Tesseract 학습에 대한 구조를 먼저 이해하면 편하다.
 
 1. 학습을 위해서는 `<lang>.<font>.<exp>.tif`의 이미지 파일이 필요하다. 여기서 `<lang>`은 언어, `<font>`는 글꼴 그리고 `<exp>`는 순서를 지정해주면 된다. **(예시: `kor.font1.exp0.tif`, `kor.font1.exp1.tif`, `kor.font2.exp0.tif`)**
 
@@ -34,9 +36,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 4. 위에 파일들을 다 만들면 학습에 필요한 `.lstmf` 파일을 만든다.
 
+**위 4가지를 이해하면 나머지는 [Tesseract](https://github.com/tesseract-ocr/tesseract.git)에서 제공하는 스크립트 파일을 사용하여 학습시키면 된다.**
 
+<br>
 
-### 설치 가이드
+### 설치 가이드  
+
+자세한 학습 내용은 [tess4korean](https://github.com/whoareyouwhoami/tess4korean)을 확인하면 된다. 그러나 학습전에 아래 코드를 실행시켜 Tesseract와 학습에 필요한 패키지를 설치하면 된다.
 
 **1. Ubuntu 18.04에는 `Leptonica` 패키지가 설치되어 있을 것이다. 안되어 있다면 아래 코드를 통해 설치하면 된다.**
 
@@ -57,30 +63,3 @@ $ sudo apt install libtesseract-dev
 $ sudo apt-get install libicu-dev libpango1.0-dev libcairo2-dev
 $ sudo apt-get install g++ autoconf automake libtool pkg-config libpng-dev libjpeg8-dev libtiff5-dev zlib1g-dev
 ```  
-
-
-
-
-<br>
-
-### 기타  
-
-**한국어 설치**  
-
-한국어 설치를 위해서는 먼서 `tessdata` 폴더로 이동해야 된다.
-
-```
-# 3곳 중 한 곳에 있을꺼다
-$ cd /usr/share/tesseract-ocr/tessdata
-$ cd /usr/share/tessdata
-$ cd /usr/share/tesseract-ocr/4.00
-
-```
-
-폴더로 이동 후 아래 코드를 실행시켜 한국어를 설치한다.  
-
-```
-$ sudo wget https://github.com/tesseract-ocr/tessdata/raw/4.00/kor.traineddata
-```
-
-
