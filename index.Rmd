@@ -29,21 +29,22 @@ knitr::opts_chunk$set(echo = TRUE)
 **네트워크 자료 분석**
 
 - [Network Data Analysis](docs/network/network_data_analysis.html)
+- [Visualizing Network](docs/network/visualizing_network.html)
 
 <br>
 
 **Tesseract**
 
-- [OCR 사용법](docs/ocr/ocr.html)  
 - [Tesseract 설치](docs/ocr/tesseract_install.html)  
-- [Text Detection (글자 인식)](docs/text_detection/text_detection.html)  
+- [Tesseract 학습](docs/tesseract/train_tesseract.html)
 
 <br>
 
 **Fun**
 
 - [EC2 설치법](docs/ec2/ec2.html)  
+- [OCR 사용법](docs/ocr/ocr.html)  
 - [R에서 Python 사용법](docs/python_in_r/python_in_r.html)  
-
+- [Text Detection (글자 인식)](docs/text_detection/text_detection.html)  
 
 
