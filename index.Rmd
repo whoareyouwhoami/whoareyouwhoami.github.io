@@ -36,7 +36,8 @@ knitr::opts_chunk$set(echo = TRUE)
 **Tesseract**
 
 - [Tesseract 설치](docs/ocr/tesseract_install.html)  
-- [Tesseract 학습](docs/tesseract/train_tesseract.html)
+- [Tesseract 학습](docs/tesseract/train_tesseract.html) 
+- [tess4korean](https://github.com/whoareyouwhoami/tess4korean)
 
 <br>
 
