@@ -400,10 +400,14 @@ summary {
 <p><strong>1. Ubuntu 18.04에는 <code>Leptonica</code> 패키지가 설치되어 있을 것이다. 안되어 있다면 아래 코드를 통해 설치하면 된다.</strong></p>
 <pre><code>$ sudo apt-get install libleptonica-dev</code></pre>
 <p><strong>2. Tesseract을 설치하고 학습에 필요한 패키지들을 설치한다.</strong></p>
-<pre><code># Tesseract 설치
+<pre><code># Tesseract 설치 
 $ sudo apt install tesseract-ocr
 $ sudo apt install libtesseract-dev
 
+# v.4.1 설치
+$ sudo add-apt-repository ppa:alex-p/tesseract-ocr
+$ sudo apt-get update
+$ sudo apt install tesseract-ocr
 
 # 학습에 필요한 패키지 설치
 $ sudo apt-get install libicu-dev libpango1.0-dev libcairo2-dev
