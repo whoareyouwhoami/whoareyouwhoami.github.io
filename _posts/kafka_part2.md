@@ -1,7 +1,4 @@
----
-layout: post
-title: Apache Kafka (Part II)
----
+# Apache Kafka (Part II)
 
 공식 문서에서 [Kafka](https://kafka.apache.org/downloads) 를 다운로드 후 실행시키면 아래와 같이 폴더들이 생성될 것이다. 자세한 설치 방법은 구글링을 통해 참조하면 된다.
 

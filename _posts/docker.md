@@ -1,7 +1,4 @@
----
-layout: post
-title: Docker
----
+# Docker
 
 이 글에서는 도커에 대해서 알아보겠다. 도커는 새로운 기술이 아니다. 이전에도 컨테이너 활용은 사용되어 왔다. [ [설치하기](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) ]
 
