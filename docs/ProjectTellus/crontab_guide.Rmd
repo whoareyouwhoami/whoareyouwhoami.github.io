@@ -1,6 +1,6 @@
 ---
 title: "Crontab 사용"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}

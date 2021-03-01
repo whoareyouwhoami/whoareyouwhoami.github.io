@@ -1,12 +1,6 @@
 ---
-title: "Data Structure & Algorithm (2)"
-output:
-  html_document:
-    highlight: textmate
-    theme: default
-    toc: true
-    toc_float: true
-    df_print: paged
+title: "Data Structure & Algorithm Part 2"
+output: github_document
 ---
 
 이 문서는 다양한 알고리즘에 대해 정리한 문서이다. 복습용으로 만든 문서이므로 내용이 틀릴 가능성도 있다...

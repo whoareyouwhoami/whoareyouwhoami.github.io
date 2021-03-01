@@ -2,7 +2,7 @@
 title: "AWS EC2 설치법"
 author: ""
 date: ""
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}

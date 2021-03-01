@@ -1,6 +1,6 @@
 ---
 title: "uWSGI, Nginx, AWS EC2 사용하여 Django 배포"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}

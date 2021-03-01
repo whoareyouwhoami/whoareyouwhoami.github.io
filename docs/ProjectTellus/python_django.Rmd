@@ -1,6 +1,6 @@
 ---
 title: "AWS Ubuntu EC2 와 Python Django"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}

@@ -1,6 +1,6 @@
 ---
 title: "Text Detection (글자 인식)"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}

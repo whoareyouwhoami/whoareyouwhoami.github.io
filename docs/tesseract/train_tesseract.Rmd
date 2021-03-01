@@ -1,6 +1,6 @@
 ---
 title: "Tesseract 학습"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}

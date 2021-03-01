@@ -2,13 +2,7 @@
 title: "R에서 Python 사용법"
 author: ""
 date: ''
-output: 
-  html_document:
-    highlight: textmate
-    theme: default
-    toc: true
-    toc_float: true
-    df_print: paged
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
