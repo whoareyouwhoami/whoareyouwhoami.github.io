@@ -3,21 +3,21 @@ layout: default
 ---
 
 
-## Kafka
+### Kafka
 
 [Kafka (Part I)](docs/kafka/kafka_part1.md)
 
 [Kafka (Part II)](docs/kafka/kafka_part2.md)
 
-## Docker
+### Docker
 
 [Docker](docs/docker/docker.md)
 
-## Spring
+### Spring
 
 [Validating Form Input](docs/spring/SpringValidation.md)
 
-## Tesseract
+### Tesseract
 
 [Tesseract 설치](docs/tesseract/tesseract_install.md)
 
@@ -25,7 +25,7 @@ layout: default
 
 [tess4korean (한국어 학습)](https://github.com/whoareyouwhoami/tess4korean)
 
-## Data Structure & Algorithm
+### Data Structure & Algorithm
 
 [Data Structure](docs/cs/datastructure.md)
 
@@ -34,7 +34,7 @@ layout: default
 [코드](https://github.com/whoareyouwhoami/Algorithm)
 
 
-## Fun
+### Fun
 
 [uWSGI, Nginx, AWS EC2 사용하여 Django 배포](docs/tellus/uwsgi_nginx.md)
 
