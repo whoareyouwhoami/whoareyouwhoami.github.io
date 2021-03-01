@@ -36,9 +36,11 @@ layout: default
 
 ### Fun
 
-[uWSGI, Nginx, AWS EC2 사용하여 Django 배포](docs/tellus/uwsgi_nginx.md)
+[AWS EC2 설치법](docs/aws/ec2.md)
 
 [AWS Ubuntu EC2 와 Python Django](docs/tellus/python_django.md)
+
+[uWSGI, Nginx, AWS EC2 사용하여 Django 배포](docs/tellus/uwsgi_nginx.md)
 
 [Crontab 사용](docs/tellus/crontab_guide.md)
 
