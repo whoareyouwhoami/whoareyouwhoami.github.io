@@ -33,7 +33,7 @@ kafka
 Created topic topicA.
 ```
 
-![Kafka Part 2 - 1](pics/kafka/kafka_p2_1.png)
+![Kafka Part 2 - 1](pics/kafka_p2_1.png)
 
 **replication-factor (RF)** : 복제할 토픽 개수
 
