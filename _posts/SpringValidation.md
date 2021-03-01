@@ -1,3 +1,7 @@
+---
+layout: post
+title: 폼 검증
+---
 # 폼 검증방법
 
 이 글에서는 Hibernate Validator를 사용해 어노테이션으로 폼 검증방법 대해서 알아보겠다.
