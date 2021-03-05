@@ -13,6 +13,12 @@ layout: default
 
 [Docker](docs/docker/docker.md)
 
+### Database
+
+[RDB vs NoSQL](docs/redis/rdb_nosql.md)
+
+[Redis](docs/redis/redis.md)
+
 ### Spring
 
 [Validating Form Input](docs/spring/SpringValidation.md)
