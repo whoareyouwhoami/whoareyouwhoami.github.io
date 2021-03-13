@@ -4,8 +4,6 @@ layout: default
 
 ## 개인 노트
 
-<br>
-
 ### Kafka
 
 [Kafka (Part I)](docs/kafka/kafka_part1.md)
