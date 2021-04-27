@@ -4,37 +4,35 @@ layout: default
 
 ## 개인 노트
 
-### Kafka
-
-[Kafka (Part I)](docs/kafka/kafka_part1.md)
-
-[Kafka (Part II)](docs/kafka/kafka_part2.md)
-
 ### Docker
 
 [Docker](docs/docker/docker.md)
 
+### Kafka
+
+[Apache Kafka](docs/kafka/kafka_part1.md)
+
+[코드](docs/kafka/kafka_part2.md)
+
+### Redis
+
+[Redis](docs/redis/Redis.md)
+
+[RediSearch](docs/redis/RediSearch.md)
+
+### Spring
+
+[Spring Introduction](docs/spring/SpringIntro.md)
+
 ### Database
 
-[RDB vs NoSQL](docs/redis/rdb_nosql.md)
+[Relational Database](docs/storage/RelationalDB.md)
 
-[Redis](docs/redis/redis.md)
+[NoSQL](docs/storage/NoSQL.md)
 
 ### Network
 
 [WebSocket](docs/network/websocket.md)
-
-### Spring
-
-[Validating Form Input](docs/spring/SpringValidation.md)
-
-### Tesseract
-
-[Tesseract 설치](docs/tesseract/tesseract_install.md)
-
-[Tesseract 학습](docs/tesseract/train_tesseract.md)
-
-[tess4korean (한국어 학습)](https://github.com/whoareyouwhoami/tess4korean)
 
 ### Data Structure & Algorithm
 
@@ -44,6 +42,13 @@ layout: default
 
 [코드](https://github.com/whoareyouwhoami/Algorithm)
 
+### Tesseract
+
+[Tesseract 설치](docs/tesseract/tesseract_install.md)
+
+[Tesseract 학습](docs/tesseract/train_tesseract.md)
+
+[tess4korean (한국어 학습)](https://github.com/whoareyouwhoami/tess4korean)
 
 ### Fun
 
