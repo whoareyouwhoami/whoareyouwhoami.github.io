@@ -22,7 +22,9 @@ layout: default
 
 ### Spring
 
-[Spring Introduction](docs/spring/SpringIntro.md)
+[IoC Container](docs/spring/SpringIoC.md)
+
+[Bean Scopes](docs/spring/SpringBeanScopes.md)
 
 ### Database
 
