@@ -24,7 +24,10 @@ layout: default
 
 [IoC Container](docs/spring/SpringIoC.md)
 
+[Dependency Injection](docs/spring/DI.md);
+
 [Bean Scopes](docs/spring/SpringBeanScopes.md)
+
 
 ### Database
 
