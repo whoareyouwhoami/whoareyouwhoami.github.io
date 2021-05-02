@@ -22,11 +22,11 @@ layout: default
 
 ### Spring
 
-[IoC Container](docs/spring/SpringIoC.md)
+[IoC Container](docs/spring/IoC.md)
 
 [Dependency Injection](docs/spring/DI.md)
 
-[Bean Scopes](docs/spring/SpringBeanScopes.md)
+[Bean Scopes](docs/spring/BeanScopes.md)
 
 ### Database
 
