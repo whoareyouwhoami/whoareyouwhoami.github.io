@@ -42,6 +42,9 @@ int[] array = new int[5]; // 배열 크기가 5인 int 배열
 
 연결 리스트는 데이터가 노드의 연결로 지어진 자료구조이다. 배열의 크기를 크게 정하면 자원을 낭비하게 된다. 그러므로 연결 리스트는 일정 크기를 메모리게 지정하지 않고 필요할 때 노드를 생성해서 이어주는 방식으로 데이터 연산들을 처리한다. 배열에서는 데이터를 추가하거나 제거하려면 새로운 배열을 생성해서 기존 배열의 데이터를 복사해야 된다. 그러나 연결 리스트는 현재 노드와 추가/제거할 노드간의 연결을 이어주거나 끊으면 되어서 효율적이다. 하지만 연결 리스트는 다음 노드에 대한 정보가 필요하므로 추가적인 자원이 필요하다.
 
+![](pics/linkedlist.png)
+
+[이미지 출처](https://www.geeksforgeeks.org/data-structures/linked-list/)
 
 <br>
 
@@ -53,6 +56,9 @@ int[] array = new int[5]; // 배열 크기가 5인 int 배열
 
 연결 리스트는 다음 노드에 대한 주소가 있는 반면 이중 연결 리스트는 이전 노드에 대한 주소도 가지고 있는 연결 리스트이다. 만약 연결 리스트를 사용하면 이전 노드에 정보가 없어서 느린 포인터와 빠른 포인터를 사용해서 연산 작업을 해야 할 때가 많다. 그러므로 하나의 연결 리스트에 이전 노드와 다음 노드에 대한 정보를 두어서 쉽게 노드들간의 연산을 할 수 있게 도와준다.
 
+![](pics/doublylinkedlist.png)
+
+[이미지 출처](https://www.geeksforgeeks.org/data-structures/linked-list/)
 
 <br>
 
@@ -82,39 +88,67 @@ int[] array = new int[5]; // 배열 크기가 5인 int 배열
 |------|------|------|
 | O(n) | O(n) | O(n) |
 
-해시 테이블은 키와 값을 사용해서 데이터를 관리하는 자료구조이다. 키는 해시 함수를 사용해서 나온 해시값의 셀에 원래의 데이터를 삽입한다. 그 외에도 검색할 때도 키의 해시값을 구해서 해당 셀에 접근할 수 있어서 O(1)이라는 시간이 걸린다. 하지만 **해시 함수 (hash function)** 를 잘못 고를경우 키의 값은 다르나 해시값이 같아질 수 있다. 이를 **해시 충돌 (hash collision)** 이라고 한다. 해시 충돌에 대한 해결 방법은 다음과 같다.
+해시 테이블은 키와 값을 사용해서 데이터를 관리하는 자료구조이다. 키는 해시 함수를 사용해서 나온 해시값의 셀에 원래의 데이터를 삽입한다. 그 외에도 검색할 때도 키의 해시값을 구해서 해당 셀에 접근할 수 있어서 O(1)이라는 시간이 걸린다.
+
+![](pics/graph8.png)
+
+[이미지 출처](https://en.wikipedia.org/wiki/Hash_table)
+
+
+하지만 **해시 함수 (hash function)** 를 잘못 고를경우 키의 값은 다르나 해시값이 같아질 수 있다. 이를 **해시 충돌 (hash collision)** 이라고 한다. 해시 충돌에 대한 해결 방법은 다음과 같다.
 
 **1. Open addressing**
 
 개방 주소 방법은 충돌된 값을 다른 셀에 저장하는 방법이다. **Linear probing** 방법은 충돌 된 셀 옆으로 이동하면서 빈 공간이 나오면 저장하는 방법이다 (마지막 셀에 들면 첫번째 셀로 이동한다). 최악의 경우 검색을 할 때 테이블 전채를 확인해야 할 수 있어 O(n) 이라는 시간 복잡도를 갖는다. 그 외에도 **double hashing** 을 통해 해시 함수를 하나 더 사용하는 방법이다.
 
+![Linear Probing](pics/linearprobing.png)
+
 **2.Chaining**
 
 체이닝은 해당 키의 셀에 연결 리스트를 사용해서 같은 해시값을 가진 데이터들을 연결해 추가하는 방식이다. 이렇게 되면 최악의 경우 한 셀에 데이터가 몰릴 수 있어서 O(n) 이라는 시간 복잡도를 갖는다.
+
+![Chaining](pics/chaining.png)
 
 <br>
 
 ## [트리 (Tree)](#Data-Structure)
 
-트리 자료구는 계층 구조의 추상적 모델이다. 트리 구조에서 사용한느 용어는 다음과 같다.
+트리 자료구는 계층 구조의 추상적 모델이다.
 
 ## [이진 트리 (Binary Tree)](#Data-Structure)
 
 이진 트리는 각 노드가 최대 2개의 자식 노드를 가질 수 있는 트리 구조이다.
 
+![](pics/binarytree.png)
+
+[이미지 출처](https://en.wikipedia.org/wiki/Binary_tree)
+
 
 **1. Full Binary Tree (정 이진 트리)**
 
-각 노드는 0개 아니면 최대 2개의 자식 노드를 갖는 트리이다
+각 노드는 0개 아니면 최대 2개의 자식 노드를 갖는 트리이다.
+
+![](pics/fullbinarytree.png)
+
+[이미지 출처](https://en.wikipedia.org/wiki/Binary_tree)
+
 
 **2. Complete Binary Tree (완전 이진 트리)**
 
 마지막 레벨을 제외하고 모든 노드는 2개의 자식 노드를 가지고 있어야 하며 마지막 레벨은 왼쪽부터 순차적으로 채워져야 하는 구조이다.
 
+![](pics/completebinarytree.png)
+
+[이미지 출처](https://en.wikipedia.org/wiki/Binary_tree)
+
 
 **3. Perfect Binary Tree (포화 이진 트리)**
 
 정 이진 트리와 완전 이진 트리를 합친 트리라고 볼 수 있다. 모든 내부 노드는 2개의 자식 노드를 가지고 있어야 한며 leaf 노드들은 같은 레벨에 있어야 한다.
+
+![](pics/perfectbinarytree.png)
+
+[이미지 출처](https://www.geeksforgeeks.org/perfect-binary-tree-specific-level-order-traversal/)
 
 
 <br>
@@ -131,6 +165,25 @@ int[] array = new int[5]; // 배열 크기가 5인 int 배열
 
 삭제를 할 때는 루트 값을 마지막 레벨의 맨 오른쪽 노드와 교체한 후 기존 루트 노드를 제거한다. 교체 후 새로운 루트 노드를 시작으로 heapify를 실행시켜 최대/최소 힙 구조로 변환시킨다.
 
+![](pics/graph9.png)
+
+![](pics/graph10.png)
+
+배열에 있는 데이터들을 힙으로 구현힐 수 있으며 최대 힙으로 바꿀 수 있다.
+
+
+![](pics/heap1.png)
+
+![](pics/heap2.png)
+
+![](pics/heap3.png)
+
+![](pics/heap4.png)
+
+![](pics/heap5.png)
+
+Max heap 으로 바꾸는 과정이다.
+
 <br>
 
 ## [이진 탐색 트리 (Binary Search Tree)](#Data-Structure)
@@ -140,6 +193,11 @@ int[] array = new int[5]; // 배열 크기가 5인 int 배열
 | O(n) | O(n) | O(n) |
 
 이진 프리는 각 노드에 최대 2개의 자식 노드를 가질 수 있다. 그런데 값을 지정하는데 제한이 없어서 특정 값을 검색하려면 모든 노드를 탐색하면서 찾아야 한다. 이를 개선하기 위해서 이진 탐색 트리는 왼쪽 자식 노드는 부모 노드보다 작아야 하고 오른쪽 자식 노드는 부모 노드보다 값이 커야되는 자료구조이다. 즉, 부모 노드의 왼쪽 서브 트리의 모든 노드 값들은 부모 노드보다 값이 작아야 하고 오른쪽 서브 트리의 값들은 부모 노드보다 값이 커야 한다. 그 결과 검색, 삽입, 제거 작업들을 O(log n)에 달성할 수 있다. 하지만 이진 탐색 트리는 불균형하게 구성될 수 있어서 최악의 경우 O(n) 시간 복잡도를 갖는다.
+
+![](pics/binarysearchtree.png)
+
+[이미지 출처](https://en.wikipedia.org/wiki/Binary_search_tree)
+
 
 <br>
 
@@ -157,6 +215,11 @@ int[] array = new int[5]; // 배열 크기가 5인 int 배열
 
 만약 조건이 만족되지 않으면 균형 잡히게 구조를 조정해야 한다.
 
+![](pics/avltree.png)
+
+[이미지 출처](https://en.wikipedia.org/wiki/AVL_tree)
+
+avltree
 <br>
 
 ## [Red-Black 트리](#Data-Structure)
@@ -175,6 +238,11 @@ int[] array = new int[5]; // 배열 크기가 5인 int 배열
 - 노드가 **빨강**이면 자식들은 **블랙**이여야 한다.
 - 노드부터 후손 NIL 노드까지의 블랙 노드의 수는 모두 같아야 한다.
 
+![](pics/redblacktree.png)
+
+[이미지 출처](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree)
+
+
 <br>
 
 ## [그래프 (Graph)](#Data-Structure)
@@ -182,3 +250,5 @@ int[] array = new int[5]; // 배열 크기가 5인 int 배열
 그래프는 **G** 는 노드/정점 **V**ertex 와 간선 **E**dge 쌍으로 지어진 자료구조이다. 트리 구조 또한 cycle 이 없는 그래프 구조이다.
 
 그래프는 방향성이 있는 그래프 **(Directed Graph)** 와 무방향 그래프 **(Undirected Graph)** 로 나눠질 수 있다. 그리고 그래프는 인접 행렬 **(Adjacency Matrix)** 와 인접 리스트 **(Adjacency List)** 로 구현할 수 있다.
+
+![그래프](pics/graph.png)
