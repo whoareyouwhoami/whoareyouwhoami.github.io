@@ -40,7 +40,7 @@ layout: default
 
 ### Data Structure & Algorithm
 
-[Data Structure](docs/cs/datastructure.md)
+[Data Structure](docs/cs/DataStructure.md)
 
 [Algorithm](docs/cs/algorithm)
 
